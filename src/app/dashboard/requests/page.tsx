@@ -2,12 +2,12 @@ import FriendRequests from "@/components/FriendRequests";
 import { fetchRedis } from "@/helpers/redis";
 import { authOptions } from "@/lib/auth";
 import { getServerSession } from "next-auth";
-import { redirect } from "next/navigation";
+import { notFound } from "next/navigation";
 
 const RequestsPage = async ({}) => {
   const session = await getServerSession(authOptions);
 
-  if (!session) redirect("/login");
+  if (!session) notFound();
 
   const incomingSenderId = (await fetchRedis(
     "smembers",
@@ -16,12 +16,13 @@ const RequestsPage = async ({}) => {
 
   const incomingFriendReq = await Promise.all(
     incomingSenderId.map(async (senderId) => {
-      const sender = (await fetchRedis("get", `user:${senderId}`)) as Users;
+      const sender = (await fetchRedis("get", `user:${senderId}`)) as string;
+      const parsedSender = JSON.parse(sender) as Users;
       return {
         senderId,
-        senderEmail: sender.email,
-        senderName: sender.name,
-        senderImage: sender.image,
+        senderEmail: parsedSender.email,
+        senderName: parsedSender.name,
+        senderImage: parsedSender.image,
       };
     })
   );

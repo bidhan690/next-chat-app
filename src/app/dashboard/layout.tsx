@@ -1,7 +1,7 @@
 import { authOptions } from "@/lib/auth";
 import Link from "next/link";
 import { getServerSession } from "next-auth";
-import { redirect } from "next/navigation";
+import { notFound, redirect } from "next/navigation";
 import { ReactNode } from "react";
 import { Icon, Icons } from "@/components/ui/Icons";
 import Image from "next/image";
@@ -31,7 +31,7 @@ const sideBarOptions: SideBarOption[] = [
 
 const Layout = async ({ children }: LayoutProps) => {
   const session = await getServerSession(authOptions);
-  if (!session) redirect("/login");
+  if (!session) notFound();
 
   const unseenReqCount = (
     await fetchRedis(

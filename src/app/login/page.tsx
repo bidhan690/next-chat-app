@@ -5,6 +5,7 @@ import { FC, useState } from "react";
 import Image from "next/image";
 import { signIn } from "next-auth/react";
 import { toast } from "react-hot-toast";
+import { getServerSession } from "next-auth";
 
 interface LoginPageProps {}
 
