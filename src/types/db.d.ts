@@ -17,3 +17,9 @@ interface Message {
   text: string;
   timeStamp: number;
 }
+
+interface FriendRequest {
+  id: string;
+  senderId: string;
+  receiverId: string;
+}
