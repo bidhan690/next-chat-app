@@ -22,7 +22,7 @@ const FriendRequestSideOptions: FC<FriendRequestSideOptionsProps> = ({
     pusherClient.subscribe(
       toPusherKey(`user:${sessionId}:incoming_friend_request`)
     );
-
+ 
     pusherClient.subscribe(toPusherKey(`user:${sessionId}:friends`));
     const friendRequestHandler = () => {
       //realtime request count

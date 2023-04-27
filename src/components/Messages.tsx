@@ -21,14 +21,11 @@ const Messages: FC<MessagesProps> = ({
   chatId,
   chatPartner,
 }) => {
-  const scrollDownRef = useRef<HTMLDivElement | null>(null);
+
 
   const [messages, setMessages] = useState<Message[]>(initialMessages);
 
-  const formattedTime = (timeStamp: number) => {
-    return format(timeStamp, "h:mm a");
-  };
-
+  
   useEffect(() => {
     pusherClient.subscribe(toPusherKey(`chat:${chatId}`));
 
@@ -44,6 +41,11 @@ const Messages: FC<MessagesProps> = ({
       pusherClient.unbind("incoming-message", messageHandler);
     };
   }, [chatId]);
+
+  const formattedTime = (timeStamp: number) => {
+    return format(timeStamp, "h:mm a");
+  };
+  const scrollDownRef = useRef<HTMLDivElement | null>(null);
 
   return (
     <div
